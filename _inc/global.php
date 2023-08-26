@@ -1,14 +1,16 @@
 <?php
-//GLOBAL
-DEFINE("_CONFIG", [
-    "URL" => "http://localhost", // URL SITE
+//IMPORT CONFIG
+include_once("_inc/config.php");
 
-    // BASE SEM CONEXAO COM MYSQL
-    /*"DB_SERVER" => "http://localhost",    
-    "DB_USER" => "",
-    "DB_PASS" => "",
-    "DB_NAME" => ""*/
-]);
+// CONEXAO PDO
+if(_CONFIG["DB_PDO"]):
+try {
+    $conn = new PDO("mysql:host="._CONFIG["DB_SERVER"].";dbname="._CONFIG["DB_NAME"], _CONFIG["DB_USER"], _CONFIG["DB_PASS"]);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  } catch(PDOException $e) {
+      die('ERROR: ' . $e->getMessage());
+  }
+endif;
 
 // FUNCAO ROTAS API
 if(isset($_GET['api'])):
